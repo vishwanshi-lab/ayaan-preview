@@ -93,7 +93,7 @@ h3{font-size:1.22rem}
 .hdr[data-scrolled='true'] .brand{transform:scale(.86)}
 /* Redrawn as vector, so it carries no background of its own and can sit on any
    colour at any size. */
-.brand__mark{width:58px;height:58px;flex:none;display:block}
+.brand__mark{height:54px;width:auto;flex:none;display:block}
 .brand__text{display:flex;flex-direction:column;gap:.2rem}
 .brand__name{font-family:Georgia,'Times New Roman',serif;color:#fff;font-size:1.62rem;
   letter-spacing:.2em;line-height:1}
