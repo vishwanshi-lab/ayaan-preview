@@ -182,14 +182,9 @@ h3{font-size:1.22rem}
 @keyframes drift{to{transform:translate3d(14%,10%,0) scale(1.12)}}
 @keyframes drift2{to{transform:translate3d(-12%,-8%,0) scale(1.18)}}
 
-/* The real photograph, pushed back hard: desaturated, darkened and gold-tinted
-   so it reads as depth behind the type rather than as the subject. A picture
-   used this way cannot look cheap, because nobody is asked to look at it. */
-.hero__photo{position:absolute;inset:0;z-index:-3;
-  background:url('../img/slider.jpg') center/cover no-repeat;
-  filter:grayscale(.7) contrast(1.05) brightness(.32)}
-.hero__photo::after{content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(11,18,32,.55) 0%,rgba(11,18,32,.86) 62%,var(--navy) 100%)}
+/* No photograph behind the hero. The gold field, the grid and the car carry it,
+   and a dark ground lets all three read cleanly. A muddy picture underneath was
+   costing contrast and giving nothing back. */
 
 /* ---------- the car ----------
    Drives in from the right on load, crosses the hero, and parks at the left
