@@ -41,6 +41,21 @@
     targets.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---- back to top ----
+     Appears once the reader is a screen or so down, so it is not sitting there
+     on arrival. Scroll behaviour follows the reduced-motion preference. */
+  var toTop = document.querySelector('.totop');
+  if (toTop) {
+    var showAt = function () {
+      toTop.setAttribute('data-show', String(window.scrollY > window.innerHeight * 0.8));
+    };
+    window.addEventListener('scroll', showAt, { passive: true });
+    showAt();
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    });
+  }
+
   /* ---- enquiry form -------------------------------------------------------
      A static site cannot send email on its own, so the form posts to Web3Forms,
      which delivers it to TO_EMAIL. Only ACCESS_KEY needs filling in; the key is
