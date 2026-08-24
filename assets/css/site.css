@@ -104,22 +104,28 @@ h3{font-size:1.28rem}
   min-height:min(900px,100svh)}
 .hero__bg{position:absolute;inset:0;background:url('../img/slider.jpg') center/cover no-repeat}
 /* the red diagonal wedge across the top-left */
+/* The wedge is a shallow diagonal: on the live site the red reaches roughly
+   three quarters across at the top and a fifth at the bottom. 133deg puts the
+   boundary at about 43 degrees off vertical, which matches that slant. */
 .hero::before{content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(118deg,rgba(255,78,60,.82) 0 46%,rgba(255,78,60,0) 46.3%)}
-/* A light darkening pass only. The live hero keeps its photograph bright, and
-   the headline sits over the red wedge, so heavy dimming is not needed. */
+  background:linear-gradient(133deg,rgba(255,78,60,.82) 0 50%,rgba(255,78,60,0) 50.3%)}
+/* The live hero does not dim its photograph; the headline sits over the red
+   wedge and gets its contrast from there. Only a whisper of shading on the far
+   right, where white text never lands, to stop the van blowing out. */
 .hero::after{content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(100deg,rgba(18,21,26,.28) 0%,rgba(18,21,26,.18) 50%,rgba(18,21,26,.34) 100%)}
-.hero__dots{position:absolute;left:6%;top:14%;width:230px;height:250px;z-index:2;opacity:.5;
-  background-image:radial-gradient(rgba(255,255,255,.85) 1.4px,transparent 1.5px);
-  background-size:19px 19px}
+  background:linear-gradient(100deg,rgba(18,21,26,0) 55%,rgba(18,21,26,.14) 100%)}
+.hero__dots{position:absolute;left:3%;top:12%;width:330px;height:420px;z-index:2;opacity:.34;
+  background-image:radial-gradient(rgba(255,255,255,.9) 1.3px,transparent 1.4px);
+  background-size:21px 21px}
 .hero__in{position:relative;z-index:3;min-height:min(900px,100svh);
   display:flex;flex-direction:column;justify-content:center;
   align-items:flex-start;   /* without this the button stretches the full column */
-  padding-block:clamp(4rem,10vw,6rem);max-width:47rem}
+  padding-block:clamp(4rem,10vw,6rem)}
 @media (max-width:700px){ .hero__dots{display:none} }
-.hero h1{color:#fff;font-size:clamp(2.4rem,6vw,4.2rem);margin-bottom:1.1rem}
-.hero p{color:#ccd2da;font-size:clamp(1rem,2vw,1.15rem);max-width:35rem;margin-bottom:2.2rem}
+/* Measured in characters so the headline breaks after "Car" and "In" the way
+   the live site does, at any font size. */
+.hero h1{color:#fff;font-size:clamp(2.4rem,5.4vw,4rem);margin-bottom:1.4rem;max-width:15ch}
+.hero p{color:#eef1f5;font-size:clamp(1rem,2vw,1.15rem);max-width:34ch;margin-bottom:2.2rem}
 
 /* inner page banner */
 .banner{position:relative;background:var(--dark);color:#fff;text-align:center}

@@ -38,7 +38,17 @@
         io.unobserve(entry.target);
       });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.04 });
-    targets.forEach(function (el) { io.observe(el); });
+    targets.forEach(function (el) {
+      // Anything already on screen at load is shown immediately. Without this a
+      // section sitting at the fold stays blank until the reader happens to
+      // scroll, which looks like a broken page rather than an animation.
+      var box = el.getBoundingClientRect();
+      if (box.top < window.innerHeight && box.bottom > 0) {
+        el.setAttribute('data-seen', 'true');
+        return;
+      }
+      io.observe(el);
+    });
   }
 
   /* ---- back to top ----
