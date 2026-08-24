@@ -42,13 +42,34 @@
       // Anything already on screen at load is shown immediately. Without this a
       // section sitting at the fold stays blank until the reader happens to
       // scroll, which looks like a broken page rather than an animation.
+      // Only skip the animation for things comfortably on screen. An element
+      // just peeking in at the very bottom should still animate as it arrives.
       var box = el.getBoundingClientRect();
-      if (box.top < window.innerHeight && box.bottom > 0) {
+      if (box.top < window.innerHeight * 0.85 && box.bottom > 0) {
         el.setAttribute('data-seen', 'true');
         return;
       }
       io.observe(el);
     });
+  }
+
+  /* ---- the three cards over the hero ----
+     They overlap the bottom of the hero, so before any scrolling they would sit
+     on top of the hero image. Hold them hidden until the reader scrolls, then
+     let them rise into place. The attribute is only added here, so with
+     JavaScript off the cards are plain and visible. */
+  var trio = document.querySelector('.trio');
+  if (trio) {
+    trio.setAttribute('data-hold', 'true');
+    var release = function () {
+      if (window.scrollY > 30) {
+        trio.setAttribute('data-hold', 'false');
+        window.removeEventListener('scroll', release);
+      }
+    };
+    window.addEventListener('scroll', release, { passive: true });
+    // Covers a reload part-way down the page, where no scroll event fires.
+    release();
   }
 
   /* ---- back to top ----
