@@ -167,28 +167,32 @@ h3{font-size:1.22rem}
    easing toward the cursor at its own rate, which is what gives it the watery
    lag rather than sticking to the mouse. Position comes from JS as percentages;
    with no pointer, or no JS, they sit at their resting values and drift on a
-   slow loop instead. */
-.hero__aura,.hero__aura2{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;
-  will-change:transform}
-.hero__aura{width:78%;height:78%;left:0;top:0;
+   slow loop instead.
+
+   Shared by the home hero and every inner-page banner, so one rule and one
+   piece of script cover the whole site. */
+[data-glow]{position:relative;isolation:isolate;overflow:hidden}
+.glow{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;will-change:transform;
+  left:0;top:0}
+.glow--a{width:78%;height:150%;
   background:radial-gradient(closest-side,rgba(201,162,39,.34),rgba(201,162,39,.10) 55%,transparent 72%);
   filter:blur(26px);
   transform:translate3d(calc(var(--ax,26%) - 50%),calc(var(--ay,22%) - 50%),0);
   animation:drift 22s ease-in-out infinite alternate}
-.hero__aura2{width:52%;height:52%;left:0;top:0;
+.glow--b{width:52%;height:110%;
   background:radial-gradient(closest-side,rgba(243,221,151,.22),transparent 70%);
   filter:blur(34px);
   transform:translate3d(calc(var(--bx,72%) - 50%),calc(var(--by,68%) - 50%),0);
   animation:drift2 28s ease-in-out infinite alternate}
 /* Once the pointer is in play the idle drift stops, so the two do not fight. */
-.hero[data-pointer='true'] .hero__aura,
-.hero[data-pointer='true'] .hero__aura2{animation:none}
+[data-glow][data-pointer='true'] .glow{animation:none}
 @keyframes drift{to{transform:translate3d(14%,10%,0) scale(1.12)}}
 @keyframes drift2{to{transform:translate3d(-12%,-8%,0) scale(1.18)}}
-
-/* No photograph behind the hero. The gold field, the grid and the car carry it,
-   and a dark ground lets all three read cleanly. A muddy picture underneath was
-   costing contrast and giving nothing back. */
+/* Banners are shorter than the hero, so their fields sit tighter. */
+.banner .glow--a{width:62%;height:210%}
+.banner .glow--b{width:42%;height:170%}
+.banner__in{position:relative;z-index:2}
+@media (prefers-reduced-motion:reduce){.glow{animation:none}}
 
 /* ---------- the car ----------
    Drives in from the right on load, crosses the hero, and parks at the left
@@ -291,7 +295,7 @@ h3{font-size:1.22rem}
 }
 
 @media (prefers-reduced-motion:reduce){
-  .hero__aura,.hero__aura2{animation:none;transition:none}
+  .glow{animation:none}
   .hero h1 .l > span{transform:none;animation:none}
   .hero h1 em{animation:none}
   .hero p,.hero__acts,.hero__stats{opacity:1;animation:none}
