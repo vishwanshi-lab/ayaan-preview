@@ -30,23 +30,27 @@
     <a class="brand" href="index.html" aria-label="AYAAN Valet Parking Service, home">
       <svg class="brand__mark" viewBox="0 0 100 100" role="img" aria-label="AYAAN">
   <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f6e6b0"/><stop offset=".42" stop-color="#c9a227"/>
-      <stop offset="1" stop-color="#8a6a14"/>
+    <linearGradient id="gA" x1=".1" y1="0" x2=".9" y2="1">
+      <stop offset="0" stop-color="#f7e9bb"/><stop offset=".38" stop-color="#d4ac2e"/>
+      <stop offset=".72" stop-color="#a07d18"/><stop offset="1" stop-color="#6d5210"/>
     </linearGradient>
-    <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#e9d089"/><stop offset=".55" stop-color="#b08d1d"/>
-      <stop offset="1" stop-color="#6f5310"/>
+    <linearGradient id="gB" x1="1" y1=".1" x2="0" y2=".9">
+      <stop offset="0" stop-color="#f2dda2"/><stop offset=".45" stop-color="#c19a22"/>
+      <stop offset="1" stop-color="#7d5f12"/>
+    </linearGradient>
+    <linearGradient id="gC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8cf87"/><stop offset="1" stop-color="#9b7a19"/>
     </linearGradient>
   </defs>
-  <!-- outer A: two tapered strokes meeting at the apex, plus its crossbar -->
-  <path d="M4 96 L40 4 L52 4 L20 96 Z" fill="url(#g1)"/>
-  <path d="M52 4 L64 4 L96 96 L82 96 Z" fill="url(#g2)"/>
-  <path d="M24 70 L74 70 L78 82 L20 82 Z" fill="url(#g1)"/>
-  <!-- inner A, offset down and right, which is what gives the mark its layered look -->
-  <path d="M34 96 L58 34 L66 34 L48 96 Z" fill="url(#g2)" opacity=".92"/>
-  <path d="M66 34 L74 34 L92 96 L80 96 Z" fill="url(#g1)" opacity=".92"/>
-  <path d="M46 76 L82 76 L85 86 L43 86 Z" fill="url(#g2)" opacity=".92"/>
+  <!-- Outer A: one heavy chevron. Apex sharp, strokes thick, counter left open
+       so the smaller A can sit inside it. -->
+  <path d="M46 4 H58 L96 96 H80 L52 26 L24 96 H8 Z" fill="url(#gA)"/>
+  <!-- Its crossbar, low and tapering, as on the brochure mark. -->
+  <path d="M25 68 H74 L79 81 H20 Z" fill="url(#gC)"/>
+  <!-- Inner A, wholly within the outer counter and offset right, which is what
+       gives the mark its layered read. -->
+  <path d="M58 38 H65 L88 96 H77 L61 54 L45 96 H35 Z" fill="url(#gB)"/>
+  <path d="M46 76 H79 L82 86 H43 Z" fill="url(#gB)"/>
 </svg>
       <span class="brand__text">
         <span class="brand__name">AYAAN</span>
@@ -326,23 +330,27 @@
         <span class="brand brand--ftr">
           <svg class="brand__mark" viewBox="0 0 100 100" role="img" aria-label="AYAAN">
   <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f6e6b0"/><stop offset=".42" stop-color="#c9a227"/>
-      <stop offset="1" stop-color="#8a6a14"/>
+    <linearGradient id="gA" x1=".1" y1="0" x2=".9" y2="1">
+      <stop offset="0" stop-color="#f7e9bb"/><stop offset=".38" stop-color="#d4ac2e"/>
+      <stop offset=".72" stop-color="#a07d18"/><stop offset="1" stop-color="#6d5210"/>
     </linearGradient>
-    <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#e9d089"/><stop offset=".55" stop-color="#b08d1d"/>
-      <stop offset="1" stop-color="#6f5310"/>
+    <linearGradient id="gB" x1="1" y1=".1" x2="0" y2=".9">
+      <stop offset="0" stop-color="#f2dda2"/><stop offset=".45" stop-color="#c19a22"/>
+      <stop offset="1" stop-color="#7d5f12"/>
+    </linearGradient>
+    <linearGradient id="gC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8cf87"/><stop offset="1" stop-color="#9b7a19"/>
     </linearGradient>
   </defs>
-  <!-- outer A: two tapered strokes meeting at the apex, plus its crossbar -->
-  <path d="M4 96 L40 4 L52 4 L20 96 Z" fill="url(#g1)"/>
-  <path d="M52 4 L64 4 L96 96 L82 96 Z" fill="url(#g2)"/>
-  <path d="M24 70 L74 70 L78 82 L20 82 Z" fill="url(#g1)"/>
-  <!-- inner A, offset down and right, which is what gives the mark its layered look -->
-  <path d="M34 96 L58 34 L66 34 L48 96 Z" fill="url(#g2)" opacity=".92"/>
-  <path d="M66 34 L74 34 L92 96 L80 96 Z" fill="url(#g1)" opacity=".92"/>
-  <path d="M46 76 L82 76 L85 86 L43 86 Z" fill="url(#g2)" opacity=".92"/>
+  <!-- Outer A: one heavy chevron. Apex sharp, strokes thick, counter left open
+       so the smaller A can sit inside it. -->
+  <path d="M46 4 H58 L96 96 H80 L52 26 L24 96 H8 Z" fill="url(#gA)"/>
+  <!-- Its crossbar, low and tapering, as on the brochure mark. -->
+  <path d="M25 68 H74 L79 81 H20 Z" fill="url(#gC)"/>
+  <!-- Inner A, wholly within the outer counter and offset right, which is what
+       gives the mark its layered read. -->
+  <path d="M58 38 H65 L88 96 H77 L61 54 L45 96 H35 Z" fill="url(#gB)"/>
+  <path d="M46 76 H79 L82 86 H43 Z" fill="url(#gB)"/>
 </svg>
           <span class="brand__text">
             <span class="brand__name">AYAAN</span>
