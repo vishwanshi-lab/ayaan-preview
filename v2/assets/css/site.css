@@ -93,7 +93,11 @@ h3{font-size:1.22rem}
 .hdr[data-scrolled='true'] .brand{transform:scale(.86)}
 /* Redrawn as vector, so it carries no background of its own and can sit on any
    colour at any size. */
-.brand__mark{height:54px;width:auto;flex:none;display:block}
+.brand__mark{height:58px;width:auto;flex:none;display:block;
+  /* Background keyed out by luminance, so the mark sits on any colour. Screen
+     blending was the wrong fix: it lightens, so the dark ground showed as a
+     paler box rather than disappearing. */
+  }
 .brand__text{display:flex;flex-direction:column;gap:.2rem}
 .brand__name{font-family:Georgia,'Times New Roman',serif;color:#fff;font-size:1.62rem;
   letter-spacing:.2em;line-height:1}
@@ -259,10 +263,27 @@ h3{font-size:1.22rem}
 /* a quiet row of facts, which reads as confidence rather than decoration */
 .hero__stats{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(1.6rem,5vw,4rem);
   margin-top:clamp(3rem,7vh,4.5rem);opacity:0;animation:fade 1s ease 2s forwards}
+.hero__stat{position:relative;padding:.4rem .9rem;border-radius:4px;cursor:default;
+  transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.hero__stat:hover{transform:translateY(-4px)}
 .hero__stat b{display:block;font-size:clamp(1.6rem,3.2vw,2.3rem);color:#fff;line-height:1;
-  letter-spacing:-.02em}
+  letter-spacing:-.02em;transition:color .35s ease,text-shadow .35s ease}
+/* The glow is a text-shadow rather than a filter, so only the numeral lights up
+   and the label underneath stays crisp. */
+.hero__stat:hover b{color:#fff6dd;
+  text-shadow:0 0 18px rgba(243,221,151,.75), 0 0 42px rgba(201,162,39,.45)}
 .hero__stat span{display:block;margin-top:.45rem;font-size:.7rem;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gold)}
+  text-transform:uppercase;color:var(--gold);transition:color .35s ease}
+.hero__stat:hover span{color:var(--gold-soft)}
+/* a gold pool that blooms behind the pair */
+.hero__stat::after{content:'';position:absolute;inset:-10% -8%;z-index:-1;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(201,162,39,.30),transparent 72%);
+  opacity:0;transform:scale(.7);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.3,1)}
+.hero__stat:hover::after{opacity:1;transform:scale(1)}
+@media (prefers-reduced-motion:reduce){
+  .hero__stat,.hero__stat b,.hero__stat span,.hero__stat::after{transition:none}
+  .hero__stat:hover{transform:none}
+}
 
 @media (prefers-reduced-motion:reduce){
   .hero__aura,.hero__aura2{animation:none;transition:none}
