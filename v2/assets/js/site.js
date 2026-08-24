@@ -65,9 +65,13 @@
      without animating on every frame. */
   var hdr = document.querySelector('.hdr');
   if (hdr) {
-    var lastState = null;
+    // Two thresholds, not one. A single cutoff means a scroll position sitting
+    // exactly on it can flip the state on every frame; the gap between 90 and 40
+    // makes that impossible even if something else nudges the page.
+    var lastState = false;
     var onScroll = function () {
-      var state = window.scrollY > 40;
+      var y = window.scrollY;
+      var state = lastState ? y > 40 : y > 90;
       if (state !== lastState) { hdr.setAttribute('data-scrolled', String(state)); lastState = state; }
     };
     window.addEventListener('scroll', onScroll, { passive: true });

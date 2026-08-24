@@ -70,12 +70,17 @@ h3{font-size:1.22rem}
 @media (prefers-reduced-motion:reduce){.nav a::after{transition:none}}
 .burger{display:none;margin-left:auto;background:none;border:0;padding:.5rem;cursor:pointer;color:#fff}
 .burger span{display:block;width:23px;height:2px;background:currentColor;margin:5px 0}
-/* Slims on scroll so the bar takes less room on the way down. */
-.hdr[data-scrolled='true']{background:rgba(11,18,32,.98)}
-.hdr[data-scrolled='true'] .hdr__in{min-height:70px}
-.hdr__in,.hdr__logo img{transition:min-height .25s ease,height .25s ease}
-.hdr[data-scrolled='true'] .hdr__logo img{height:46px}
-@media (prefers-reduced-motion:reduce){.hdr__in,.hdr__logo img{transition:none}}
+/* Slims on scroll — but WITHOUT changing the header's height.
+   Animating min-height moved every element below it, which shifted the scroll
+   position back across the threshold, which un-slimmed the bar, which shifted
+   it again: the header visibly vibrated at that one scroll position. The bar
+   now keeps a constant height and only the logo scales, using transform, which
+   paints without touching layout. */
+.hdr[data-scrolled='true']{background:rgba(11,18,32,.98);
+  box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.hdr__logo img{transform-origin:left center;transition:transform .25s ease}
+.hdr[data-scrolled='true'] .hdr__logo img{transform:scale(.8)}
+@media (prefers-reduced-motion:reduce){.hdr__logo img{transition:none}}
 
 @media (max-width:920px){
   /* Slides down rather than snapping in, and is always in the DOM so the
@@ -139,36 +144,72 @@ h3{font-size:1.22rem}
 .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
 @media (max-width:940px){.pillars{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.pillars{grid-template-columns:1fr}}
-.pillar{padding:2rem 1.5rem;border:1px solid var(--line);border-radius:3px;background:#fff;
-  transition:border-color .25s ease,transform .25s ease}
-.pillar:hover{border-color:var(--gold);transform:translateY(-3px)}
-.pillar__n{font-size:.74rem;font-weight:700;letter-spacing:.2em;color:var(--gold)}
-.pillar h3{margin:.7rem 0 .5rem;font-size:1.06rem}
-.pillar p{font-size:.93rem}
-@media (prefers-reduced-motion:reduce){.pillar{transition:none}.pillar:hover{transform:none}}
+.pillar{position:relative;padding:2.2rem 1.6rem;border:1px solid var(--line);border-radius:4px;
+  background:#fff;isolation:isolate;overflow:hidden;
+  transition:border-color .35s ease,transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .35s ease}
+/* The gold wash sits behind the text and sweeps up from the bottom, so the card
+   fills rather than simply changing colour. */
+.pillar::before{content:'';position:absolute;inset:0;z-index:-1;opacity:0;
+  background:linear-gradient(155deg,var(--navy-2) 0%,var(--navy) 45%,#2a2110 100%);
+  transition:opacity .35s ease}
+.pillar::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;z-index:-1;
+  background:linear-gradient(90deg,var(--gold) 0%,var(--gold-soft) 50%,var(--gold) 100%);
+  transform:scaleX(0);transform-origin:left;transition:transform .45s ease}
+.pillar:hover{border-color:transparent;transform:translateY(-8px);
+  box-shadow:0 22px 46px rgba(11,18,32,.28)}
+.pillar:hover::before{opacity:1}
+.pillar:hover::after{transform:scaleX(1)}
+.pillar:hover h3{color:#fff}
+.pillar:hover p{color:#c3ccd9}
+.pillar:hover .pillar__n{color:var(--gold-soft)}
+.pillar__n{font-size:.74rem;font-weight:700;letter-spacing:.2em;color:var(--gold);transition:color .35s ease}
+.pillar h3{margin:.7rem 0 .5rem;font-size:1.06rem;transition:color .35s ease}
+.pillar p{font-size:.93rem;transition:color .35s ease}
+@media (prefers-reduced-motion:reduce){
+  .pillar,.pillar::before,.pillar::after,.pillar h3,.pillar p,.pillar__n{transition:none}
+  .pillar:hover{transform:none}
+}
 
 /* ---------- services ---------- */
 .grid{display:grid;gap:1.25rem}
 .grid--3{grid-template-columns:repeat(3,1fr)}
 @media (max-width:940px){.grid--3{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.grid--3{grid-template-columns:1fr}}
-.svc{border:1px solid var(--line);border-radius:3px;padding:1.9rem 1.6rem;background:#fff;
-  position:relative;transition:border-color .25s ease}
-.svc::before{content:'';position:absolute;left:0;top:0;width:2px;height:0;background:var(--gold);
-  transition:height .3s ease}
-.svc:hover{border-color:#d6dae1}
-.svc:hover::before{height:100%}
-.svc h3{font-size:1.08rem;margin-bottom:.45rem}
-.svc p{font-size:.93rem}
-@media (prefers-reduced-motion:reduce){.svc,.svc::before{transition:none}}
+.svc{position:relative;border:1px solid var(--line);border-radius:4px;padding:2rem 1.7rem;background:#fff;
+  isolation:isolate;overflow:hidden;
+  transition:border-color .35s ease,transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .35s ease}
+.svc::before{content:'';position:absolute;inset:0;z-index:-1;opacity:0;
+  background:linear-gradient(155deg,var(--navy-2) 0%,var(--navy) 45%,#2a2110 100%);
+  transition:opacity .35s ease}
+/* a gold rule that draws itself down the left edge */
+.svc::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;z-index:-1;
+  background:linear-gradient(180deg,var(--gold-soft),var(--gold));
+  transform:scaleY(0);transform-origin:top;transition:transform .45s ease}
+.svc:hover{border-color:transparent;transform:translateY(-6px);
+  box-shadow:0 20px 42px rgba(11,18,32,.26)}
+.svc:hover::before{opacity:1}
+.svc:hover::after{transform:scaleY(1)}
+.svc:hover h3{color:#fff}
+.svc:hover p{color:#c3ccd9}
+.svc h3{font-size:1.08rem;margin-bottom:.45rem;transition:color .35s ease}
+.svc p{font-size:.93rem;transition:color .35s ease}
+@media (prefers-reduced-motion:reduce){
+  .svc,.svc::before,.svc::after,.svc h3,.svc p{transition:none}
+  .svc:hover{transform:none}
+}
 
 /* ---------- how it works ---------- */
 .steps{counter-reset:step;display:grid;gap:0}
-.step{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:1.4rem;
-  padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,.09)}
+.step{counter-increment:step;position:relative;display:grid;grid-template-columns:auto 1fr;gap:1.4rem;
+  padding:1.5rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.09);border-radius:4px;
+  transition:background-color .3s ease,transform .3s ease}
 .step:last-child{border-bottom:0}
+.step:hover{background:linear-gradient(100deg,rgba(201,162,39,.14),rgba(201,162,39,0) 70%);
+  transform:translateX(6px)}
+.step:hover::before{color:var(--gold-soft)}
 .step::before{content:counter(step,decimal-leading-zero);color:var(--gold);font-weight:700;
-  font-size:.95rem;letter-spacing:.1em;padding-top:.25rem}
+  font-size:.95rem;letter-spacing:.1em;padding-top:.25rem;transition:color .3s ease}
+@media (prefers-reduced-motion:reduce){.step{transition:none}.step:hover{transform:none}}
 .step h3{font-size:1.05rem;margin-bottom:.25rem}
 .step p{font-size:.93rem}
 
@@ -176,10 +217,14 @@ h3{font-size:1.22rem}
 .clients{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
 @media (max-width:940px){.clients{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.clients{grid-template-columns:1fr}}
-.client{position:relative;border-radius:3px;overflow:hidden;background:var(--navy-2);
-  border:1px solid rgba(201,162,39,.28)}
-.client img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .5s ease}
-.client:hover img{transform:scale(1.05)}
+.client{position:relative;border-radius:4px;overflow:hidden;background:var(--navy-2);
+  border:1px solid rgba(201,162,39,.28);
+  transition:border-color .4s ease,transform .4s cubic-bezier(.2,.8,.3,1),box-shadow .4s ease}
+.client:hover{border-color:var(--gold);transform:translateY(-6px);
+  box-shadow:0 24px 48px rgba(11,18,32,.34)}
+.client img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s ease}
+.client:hover img{transform:scale(1.07)}
+@media (prefers-reduced-motion:reduce){.client{transition:none}.client:hover{transform:none}}
 .client figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.5rem 1.1rem .9rem;
   background:linear-gradient(to top,rgba(11,18,32,.94) 40%,transparent);
   color:#fff;font-weight:600;font-size:.98rem;letter-spacing:.01em}
@@ -206,16 +251,31 @@ h3{font-size:1.22rem}
 .ticks svg{width:18px;height:18px;color:var(--gold);margin-top:5px}
 
 /* ---------- FAQ ---------- */
-.acc{border:1px solid var(--line);border-radius:3px;margin-bottom:.75rem;background:#fff}
-.acc summary{cursor:pointer;list-style:none;padding:1.1rem 3rem 1.1rem 1.3rem;font-weight:600;
-  color:var(--ink);position:relative;font-size:1.01rem}
+/* The FAQ is a real control, so it gets the same care as the cards: a gold rail
+   that draws down the open item, a plus that rotates to a minus, and a hover
+   state that makes it obvious the whole row is clickable. */
+.acc{position:relative;border:1px solid var(--line);border-radius:4px;margin-bottom:.7rem;
+  background:#fff;overflow:hidden;transition:border-color .3s ease,box-shadow .3s ease}
+.acc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold-soft),var(--gold));
+  transform:scaleY(0);transform-origin:top;transition:transform .35s ease}
+.acc:hover{border-color:#d8dce3;box-shadow:0 10px 26px rgba(11,18,32,.07)}
+.acc[open]{border-color:transparent;box-shadow:0 14px 34px rgba(11,18,32,.10)}
+.acc[open]::before{transform:scaleY(1)}
+.acc summary{cursor:pointer;list-style:none;padding:1.25rem 3.4rem 1.25rem 1.5rem;font-weight:600;
+  color:var(--ink);position:relative;font-size:1.02rem;transition:color .25s ease}
 .acc summary::-webkit-details-marker{display:none}
-.acc summary::after{content:'';position:absolute;right:1.2rem;top:50%;width:9px;height:9px;
-  border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);
-  transform:translateY(-70%) rotate(45deg);transition:transform .22s ease}
-.acc[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
-.acc p{padding:0 1.3rem 1.25rem;font-size:.94rem}
-@media (prefers-reduced-motion:reduce){.acc summary::after{transition:none}}
+.acc summary:hover{color:var(--gold)}
+/* plus turning into a minus: two bars, one of which collapses */
+.acc summary::after,.acc summary::before{content:'';position:absolute;right:1.5rem;top:50%;
+  width:13px;height:2px;background:var(--gold);transition:transform .3s ease,opacity .3s ease}
+.acc summary::after{transform:translateY(-50%)}
+.acc summary::before{transform:translateY(-50%) rotate(90deg)}
+.acc[open] summary::before{transform:translateY(-50%) rotate(0);opacity:0}
+.acc p{padding:0 1.5rem 1.4rem;font-size:.95rem}
+@media (prefers-reduced-motion:reduce){
+  .acc,.acc::before,.acc summary,.acc summary::after,.acc summary::before{transition:none}
+}
 
 /* ---------- contact ---------- */
 .contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,3.5rem)}
