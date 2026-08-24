@@ -120,6 +120,44 @@
     });
   }
 
+  /* ---- the car in the hero ----
+     Enters from the right and travels toward the centre as the hero scrolls
+     past, so its position tracks the reader rather than running on a timer.
+     Each path is told its own length first, so the draw-in animation is exact
+     rather than a guess. Everything is written to CSS custom properties and
+     applied on an animation frame, so scrolling never blocks on layout. */
+  var car = document.querySelector('.car');
+  if (car) {
+    // Measure each stroke so the dash animation covers it exactly.
+    car.querySelectorAll('path, circle').forEach(function (shape) {
+      var len = shape.getTotalLength ? shape.getTotalLength() : 600;
+      shape.style.setProperty('--len', Math.ceil(len));
+    });
+    car.setAttribute('data-ready', 'true');
+
+    if (!reduced) {
+      var hero = document.querySelector('.hero');
+      var ticking = false;
+      var place = function () {
+        ticking = false;
+        var h = hero.offsetHeight || window.innerHeight;
+        // 0 at the top of the hero, 1 once it has scrolled fully past.
+        var t = Math.min(1, Math.max(0, window.scrollY / h));
+        // Travels from the right edge toward the middle, growing slightly.
+        car.style.setProperty('--car-x', (18 - t * 46).toFixed(2) + 'vw');
+        car.style.setProperty('--car-s', (0.82 + t * 0.26).toFixed(3));
+      };
+      var onCarScroll = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(place);
+      };
+      window.addEventListener('scroll', onCarScroll, { passive: true });
+      window.addEventListener('resize', onCarScroll, { passive: true });
+      place();
+    }
+  }
+
   /* ---- back to top ---- */
   var toTop = document.querySelector('.totop');
   if (toTop) {
