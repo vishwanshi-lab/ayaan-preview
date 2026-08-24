@@ -60,12 +60,14 @@ h3{font-size:1.28rem}
 /* ---------- header ---------- */
 .hdr{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);
   box-shadow:0 1px 14px rgba(0,0,0,.05)}
-.hdr__in{display:flex;align-items:center;gap:1.5rem;min-height:82px}
+.hdr__in{display:flex;align-items:center;gap:1.5rem;min-height:94px}
 /* The header logo is the dark-lettering artwork, so it sits directly on the
    white bar with no plate behind it, as on the live site. The footer keeps the
    white-lettering file, which suits the dark band there. */
-.hdr__logo img{height:52px;width:auto}
-.hdr__logo{display:inline-block}
+.hdr__logo img{height:64px;width:auto}
+/* A little breathing room above and below so the mark does not sit flush
+   against the bar and read as part of it. */
+.hdr__logo{display:inline-block;padding:.4rem 0}
 .nav{margin-left:auto;display:flex;gap:2rem}
 .nav a{text-decoration:none;color:var(--ink);font-weight:600;font-size:.95rem;padding-block:.5rem;position:relative}
 .nav a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--brand);
@@ -79,7 +81,7 @@ h3{font-size:1.28rem}
 .burger{display:none;margin-left:auto;background:none;border:0;padding:.5rem;cursor:pointer;color:var(--ink)}
 .burger span{display:block;width:23px;height:2px;background:currentColor;margin:5px 0}
 @media (max-width:900px){
-  .nav{position:fixed;inset:82px 0 auto 0;background:#fff;flex-direction:column;gap:0;
+  .nav{position:fixed;inset:94px 0 auto 0;background:#fff;flex-direction:column;gap:0;
     padding:.25rem var(--pad) 1.25rem;border-bottom:1px solid var(--line);display:none}
   .nav[data-open='true']{display:flex}
   .nav a{padding-block:.9rem;border-bottom:1px solid var(--line)}
@@ -90,10 +92,15 @@ h3{font-size:1.28rem}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.9rem;
-  border-radius:999px;border:2px solid transparent;font:inherit;font-weight:600;font-size:.95rem;
+  border-radius:999px;border:3px solid transparent;font:inherit;font-weight:600;font-size:.95rem;
   text-decoration:none;cursor:pointer;transition:background-color .18s ease,color .18s ease,border-color .18s ease}
 .btn--brand{background:var(--brand);color:#fff}
 .btn--brand:hover{background:var(--brand-dark)}
+/* The hero button on the live site carries a 3px white ring, which reads against
+   both the red wedge and the photograph behind it. Values taken from the live
+   page: 3px solid white, 15px/45px padding. */
+.hero .btn--brand{border-color:#fff;padding:.94rem 2.8rem}
+.hero .btn--brand:hover{background:#fff;color:var(--ink);border-color:#fff}
 .btn--line{border-color:#fff;color:#fff}
 .btn--line:hover{background:#fff;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.btn{transition:none}}
