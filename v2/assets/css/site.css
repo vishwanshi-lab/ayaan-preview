@@ -174,15 +174,20 @@ h3{font-size:1.22rem}
 [data-glow]{position:relative;isolation:isolate;overflow:hidden}
 .glow{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;will-change:transform;
   left:0;top:0}
+/* Offsets arrive from JS in PIXELS, not percentages. A percentage inside
+   translate resolves against the layer's own box, not the band's, so writing
+   band-relative percentages here put the layer off screen on the shorter
+   banners and left them looking like the glow had vanished. The -50% still
+   refers to the layer, which is what centres it on the point. */
 .glow--a{width:78%;height:150%;
   background:radial-gradient(closest-side,rgba(201,162,39,.34),rgba(201,162,39,.10) 55%,transparent 72%);
   filter:blur(26px);
-  transform:translate3d(calc(var(--ax,26%) - 50%),calc(var(--ay,22%) - 50%),0);
+  transform:translate3d(calc(var(--ax,0px) - 50%),calc(var(--ay,0px) - 50%),0);
   animation:drift 22s ease-in-out infinite alternate}
 .glow--b{width:52%;height:110%;
   background:radial-gradient(closest-side,rgba(243,221,151,.22),transparent 70%);
   filter:blur(34px);
-  transform:translate3d(calc(var(--bx,72%) - 50%),calc(var(--by,68%) - 50%),0);
+  transform:translate3d(calc(var(--bx,0px) - 50%),calc(var(--by,0px) - 50%),0);
   animation:drift2 28s ease-in-out infinite alternate}
 /* Once the pointer is in play the idle drift stops, so the two do not fight. */
 [data-glow][data-pointer='true'] .glow{animation:none}

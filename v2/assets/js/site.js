@@ -131,38 +131,58 @@
      Touch devices and reduced-motion keep the slow idle drift instead. */
   if (!reduced && window.matchMedia('(hover:hover)').matches) {
     [].slice.call(document.querySelectorAll('[data-glow]')).forEach(function (band) {
-      var a = { x: 26, y: 22 }, b = { x: 72, y: 68 };
-      var want = { x: 26, y: 22 }, running = false;
+      // Everything is in pixels relative to the band. Percentages cannot be used
+      // here: inside a transform they resolve against the layer's own box, which
+      // put the field off screen on the shorter banners.
+      var rect = band.getBoundingClientRect();
+      var rest = function () { return { x: rect.width * 0.26, y: rect.height * 0.30 }; };
+      var a = rest(), want = rest();
+      var b = { x: rect.width * 0.72, y: rect.height * 0.66 };
+      var running = false;
+
+      var write = function () {
+        band.style.setProperty('--ax', a.x.toFixed(1) + 'px');
+        band.style.setProperty('--ay', a.y.toFixed(1) + 'px');
+        band.style.setProperty('--bx', b.x.toFixed(1) + 'px');
+        band.style.setProperty('--by', b.y.toFixed(1) + 'px');
+      };
 
       var step = function () {
         a.x += (want.x - a.x) * 0.075;
         a.y += (want.y - a.y) * 0.075;
         // The second layer trails further and drifts the opposite way, so the
         // two never move as a single blob.
-        b.x += ((100 - want.x) * 0.55 + 26 - b.x) * 0.045;
-        b.y += ((100 - want.y) * 0.55 + 30 - b.y) * 0.045;
-        band.style.setProperty('--ax', a.x.toFixed(2) + '%');
-        band.style.setProperty('--ay', a.y.toFixed(2) + '%');
-        band.style.setProperty('--bx', b.x.toFixed(2) + '%');
-        band.style.setProperty('--by', b.y.toFixed(2) + '%');
-        if (Math.abs(want.x - a.x) > 0.05 || Math.abs(want.y - a.y) > 0.05) {
+        b.x += ((rect.width - want.x) * 0.62 + rect.width * 0.08 - b.x) * 0.045;
+        b.y += ((rect.height - want.y) * 0.62 + rect.height * 0.1 - b.y) * 0.045;
+        write();
+        if (Math.abs(want.x - a.x) > 0.4 || Math.abs(want.y - a.y) > 0.4) {
           requestAnimationFrame(step);
         } else { running = false; }
       };
 
+      // Seed the resting position so the field is never unpositioned, which is
+      // what made it disappear once the idle animation was switched off.
+      write();
+
       band.addEventListener('pointermove', function (e) {
-        var box = band.getBoundingClientRect();
-        want.x = ((e.clientX - box.left) / box.width) * 100;
-        want.y = ((e.clientY - box.top) / box.height) * 100;
+        rect = band.getBoundingClientRect();
+        want.x = e.clientX - rect.left;
+        want.y = e.clientY - rect.top;
         band.setAttribute('data-pointer', 'true');
         if (!running) { running = true; requestAnimationFrame(step); }
       });
 
-      // Ease back toward rest when the pointer leaves, rather than freezing.
       band.addEventListener('pointerleave', function () {
-        want.x = 26; want.y = 22;
+        rect = band.getBoundingClientRect();
+        want = rest();
         if (!running) { running = true; requestAnimationFrame(step); }
       });
+
+      // A resize changes every one of these numbers.
+      window.addEventListener('resize', function () {
+        rect = band.getBoundingClientRect();
+        if (band.getAttribute('data-pointer') !== 'true') { a = rest(); want = rest(); write(); }
+      }, { passive: true });
     });
   }
 
