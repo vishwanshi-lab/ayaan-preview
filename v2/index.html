@@ -19,7 +19,7 @@
 "telephone":"+971501309630","email":"info@ayaanvaletparking.com","openingHours":"Mo-Su 00:00-23:59",
 "address":{"@type":"PostalAddress","streetAddress":"Latifa Tower, Al Nahda 1","addressLocality":"Dubai","addressCountry":"AE"},
 "areaServed":["Dubai","Sharjah","Ajman","Ras Al Khaimah"],
-"knowsAbout":["Palazzo Versace", "Mövenpick Hotel", "Al Barari", "Coral Beach Resort", "Sheraton", "Bahi Ajman Palace", "DoubleTree by Hilton", "Rove Hotel", "Pure"],"sameAs":["https://www.facebook.com/profile.php?id=61565408574726"]}
+"knowsAbout":["Palazzo Versace", "Ritz Carlton", "Millennium Plaza", "La Mer Beach", "Mövenpick Hotel", "Atana Hotel", "Al Barari", "Al Barari The Bay", "Sirali Restaurant", "Pure Aesthetic Clinic", "Bahi Ajman Palace", "Coral Beach Resort", "Sheraton Resort"],"sameAs":["https://www.facebook.com/profile.php?id=61565408574726"]}
 </script>
 </head>
 <body>
@@ -27,8 +27,12 @@
 
 <header class="hdr">
   <div class="wrap hdr__in">
-    <a class="hdr__logo" href="index.html" aria-label="AYAAN Valet Parking Service, home">
-      <img src="assets/img/logo-white.png" alt="AYAAN Valet Parking Service" width="632" height="192">
+    <a class="brand" href="index.html" aria-label="AYAAN Valet Parking Service, home">
+      <span class="brand__mark" aria-hidden="true">A</span>
+      <span class="brand__text">
+        <span class="brand__name">AYAAN</span>
+        <span class="brand__sub">Valet Parking Service</span>
+      </span>
     </a>
     <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
@@ -46,28 +50,35 @@
 <main id="main">
 
   <section class="hero">
+    <div class="hero__photo" role="presentation"></div>
+    <div class="hero__aura" role="presentation"></div>
+    <div class="hero__aura2" role="presentation"></div>
     <div class="wrap hero__in">
-      <div>
-        <p class="eyebrow">Valet parking &middot; United Arab Emirates</p>
-        <h1>More than parking.<br><em>It’s an experience.</em></h1>
-        <p>World-class valet for hotels, resorts, restaurants and private venues. Professional,
-           insured, and presented to the standard your guests already expect from you.</p>
-        <div class="hero__acts">
-          <a class="btn btn--gold" href="contact.html">Request a quote</a>
-          <a class="btn btn--ghost" href="tel:+971501309630">+971 50 130 9630</a>
-        </div>
+      <p class="eyebrow">Valet parking &middot; United Arab Emirates</p>
+      <h1>
+        <span class="l"><span>More than parking.</span></span>
+        <span class="l"><span><em>It&rsquo;s an experience.</em></span></span>
+      </h1>
+      <p>World-class valet for the venues your guests already chose carefully.
+         Trained, uniformed, insured, and briefed for your door.</p>
+      <div class="hero__acts">
+        <a class="btn btn--gold" href="contact.html">Request a quote</a>
+        <a class="btn btn--ghost" href="tel:+971501309630">+971 50 130 9630</a>
       </div>
-      <div class="hero__shot">
-        <img src="assets/img/hero.jpg" alt="An AYAAN valet attendant with a guest vehicle at Palazzo Versace, Dubai"
-             width="620" height="900">
+      <div class="hero__stats">
+        <div class="hero__stat"><b>13</b><span>Venues served</span></div>
+        <div class="hero__stat"><b>4</b><span>Emirates</span></div>
+        <div class="hero__stat"><b>24/7</b><span>Every day</span></div>
+        <div class="hero__stat"><b>100%</b><span>Insured</span></div>
       </div>
     </div>
   </section>
 
-  <!-- Proof before persuasion: the venues are the argument. -->
-  <section class="proof">
-    <div class="wrap proof__in">
-      <span>Trusted by</span> <b>Palazzo Versace &middot; Mövenpick Hotel &middot; Al Barari &middot; Coral Beach Resort &middot; Sheraton &middot; Bahi Ajman Palace</b> <span>and more</span>
+  <!-- Proof before persuasion. The names are the argument, so they move. -->
+  <section class="belt" aria-label="Clients we work with">
+    <div class="belt__track">
+      <div class="belt__group"><span class="belt__item">Palazzo Versace</span><span class="belt__item">Ritz Carlton</span><span class="belt__item">Millennium Plaza</span><span class="belt__item">La Mer Beach</span><span class="belt__item">Mövenpick Hotel</span><span class="belt__item">Atana Hotel</span><span class="belt__item">Al Barari</span><span class="belt__item">Al Barari The Bay</span><span class="belt__item">Sirali Restaurant</span><span class="belt__item">Pure Aesthetic Clinic</span><span class="belt__item">Bahi Ajman Palace</span><span class="belt__item">Coral Beach Resort</span><span class="belt__item">Sheraton Resort</span></div>
+      <div class="belt__group" aria-hidden="true"><span class="belt__item">Palazzo Versace</span><span class="belt__item">Ritz Carlton</span><span class="belt__item">Millennium Plaza</span><span class="belt__item">La Mer Beach</span><span class="belt__item">Mövenpick Hotel</span><span class="belt__item">Atana Hotel</span><span class="belt__item">Al Barari</span><span class="belt__item">Al Barari The Bay</span><span class="belt__item">Sirali Restaurant</span><span class="belt__item">Pure Aesthetic Clinic</span><span class="belt__item">Bahi Ajman Palace</span><span class="belt__item">Coral Beach Resort</span><span class="belt__item">Sheraton Resort</span></div>
     </div>
   </section>
 
@@ -148,7 +159,7 @@
     </div>
   </section>
 
-  <section class="sec sec--dark">
+  <section class="sec sec--dark sec--shot">
     <div class="wrap split">
       <div data-reveal>
         <p class="eyebrow">How it works</p>
@@ -187,28 +198,40 @@
       </div>
       <div class="clients">
         <figure class="client" data-reveal>
-          <img src="assets/img/client-palazzo-versace.jpg" alt="Palazzo Versace, Dubai" width="236" height="177" loading="lazy">
-          <figcaption>Palazzo Versace<span>Dubai</span></figcaption>
+          <span class="client__mark" aria-hidden="true">P</span>
+          <p class="client__cat">Hotel</p>
+          <p class="client__name">Palazzo Versace</p>
+          <p class="client__place">Dubai</p>
         </figure>
         <figure class="client" data-reveal>
-          <img src="assets/img/client-movenpick.jpg" alt="Mövenpick Hotel, Hotel" width="236" height="177" loading="lazy">
-          <figcaption>Mövenpick Hotel<span>Hotel</span></figcaption>
+          <span class="client__mark" aria-hidden="true">R</span>
+          <p class="client__cat">Hotel</p>
+          <p class="client__name">Ritz Carlton</p>
+          <p class="client__place">Dubai</p>
         </figure>
         <figure class="client" data-reveal>
-          <img src="assets/img/client-al-barari.jpg" alt="Al Barari, Dubai" width="236" height="177" loading="lazy">
-          <figcaption>Al Barari<span>Dubai</span></figcaption>
+          <span class="client__mark" aria-hidden="true">M</span>
+          <p class="client__cat">Hotel</p>
+          <p class="client__name">Millennium Plaza</p>
+          <p class="client__place">Dubai</p>
         </figure>
         <figure class="client" data-reveal>
-          <img src="assets/img/client-coral-beach.jpg" alt="Coral Beach Resort, Sharjah" width="236" height="177" loading="lazy">
-          <figcaption>Coral Beach Resort<span>Sharjah</span></figcaption>
+          <span class="client__mark" aria-hidden="true">L</span>
+          <p class="client__cat">Beachfront</p>
+          <p class="client__name">La Mer Beach</p>
+          <p class="client__place">Dubai</p>
         </figure>
         <figure class="client" data-reveal>
-          <img src="assets/img/client-sheraton.jpg" alt="Sheraton, Sharjah Beach Resort" width="236" height="177" loading="lazy">
-          <figcaption>Sheraton<span>Sharjah Beach Resort</span></figcaption>
+          <span class="client__mark" aria-hidden="true">M</span>
+          <p class="client__cat">Hotel</p>
+          <p class="client__name">Mövenpick Hotel</p>
+          <p class="client__place">Dubai</p>
         </figure>
         <figure class="client" data-reveal>
-          <img src="assets/img/client-bahi-ajman.jpg" alt="Bahi Ajman Palace, Ajman" width="236" height="177" loading="lazy">
-          <figcaption>Bahi Ajman Palace<span>Ajman</span></figcaption>
+          <span class="client__mark" aria-hidden="true">A</span>
+          <p class="client__cat">Hotel</p>
+          <p class="client__name">Atana Hotel</p>
+          <p class="client__place">Al Barsha, Dubai</p>
         </figure>
       </div>
       <p style="text-align:center;margin-top:2.5rem"><a class="btn btn--dark" href="clients.html">See every client</a></p>
@@ -250,7 +273,7 @@
     </div>
   </section>
 
-  <section class="sec sec--dark">
+  <section class="sec sec--dark sec--shot">
     <div class="wrap mid" data-reveal>
       <p class="eyebrow">Your guests. Our priority.</p>
       <h2>Tell us about your venue</h2>
@@ -268,7 +291,13 @@
   <div class="wrap ftr__in">
     <div class="ftr__cols">
       <div>
-        <img src="assets/img/logo-white.png" alt="AYAAN Valet Parking Service">
+        <span class="brand brand--ftr">
+          <span class="brand__mark" aria-hidden="true">A</span>
+          <span class="brand__text">
+            <span class="brand__name">AYAAN</span>
+            <span class="brand__sub">Valet Parking Service</span>
+          </span>
+        </span>
         <p>More than parking, it’s an experience. Professional valet across Dubai, Sharjah, Ajman and
            Ras Al Khaimah for hotels, resorts, restaurants, residential communities and corporate venues.</p>
       </div>

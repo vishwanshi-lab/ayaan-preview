@@ -44,6 +44,14 @@ h3{font-size:1.22rem}
 .sec{padding-block:var(--sec)}
 .sec--tint{background:var(--paper-2)}
 .sec--dark{background:var(--navy);color:#aab3c2}
+/* A dark band that carries a photograph behind it, same treatment as the hero:
+   present enough to add depth, never competing with the words. */
+.sec--shot{position:relative;isolation:isolate;overflow:hidden}
+.sec--shot::before{content:'';position:absolute;inset:0;z-index:-2;
+  background:url('../img/service-bg.jpg') center/cover no-repeat;
+  filter:grayscale(.75) brightness(.3)}
+.sec--shot::after{content:'';position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(120deg,var(--navy) 8%,rgba(11,18,32,.82) 55%,rgba(42,33,16,.8) 100%)}
 .sec--dark h2,.sec--dark h3{color:#fff}
 .skip{position:absolute;left:-9999px;background:var(--gold);color:var(--navy);padding:.7rem 1.1rem;z-index:100}
 .skip:focus{left:0;top:0}
@@ -60,7 +68,6 @@ h3{font-size:1.22rem}
 .hdr{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.94);backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(201,162,39,.22)}
 .hdr__in{display:flex;align-items:center;gap:1.5rem;min-height:88px}
-.hdr__logo img{height:58px;width:auto}
 .nav{margin-left:auto;display:flex;gap:2.1rem}
 .nav a{text-decoration:none;color:#c6cddb;font-weight:500;font-size:.95rem;padding-block:.5rem;position:relative}
 .nav a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--gold);
@@ -78,9 +85,23 @@ h3{font-size:1.22rem}
    paints without touching layout. */
 .hdr[data-scrolled='true']{background:rgba(11,18,32,.98);
   box-shadow:0 8px 30px rgba(0,0,0,.35)}
-.hdr__logo img{transform-origin:left center;transition:transform .25s ease}
-.hdr[data-scrolled='true'] .hdr__logo img{transform:scale(.8)}
-@media (prefers-reduced-motion:reduce){.hdr__logo img{transition:none}}
+/* The wordmark, set in type. The brochure's gold is a gradient rather than a
+   flat colour, so the monogram carries one; the lettering stays white for
+   legibility at small sizes. */
+.brand{display:inline-flex;align-items:center;gap:.85rem;text-decoration:none;
+  transform-origin:left center;transition:transform .25s ease}
+.hdr[data-scrolled='true'] .brand{transform:scale(.86)}
+.brand__mark{font-family:Georgia,'Times New Roman',serif;font-size:2.6rem;line-height:1;font-weight:700;
+  background:linear-gradient(150deg,#f0d98a 0%,var(--gold) 45%,#8f6f16 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  padding-right:.1rem}
+.brand__text{display:flex;flex-direction:column;gap:.18rem}
+.brand__name{font-family:Georgia,'Times New Roman',serif;color:#fff;font-size:1.32rem;
+  letter-spacing:.22em;line-height:1}
+.brand__sub{color:var(--gold);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;
+  line-height:1}
+.brand--ftr{margin-bottom:1.2rem}
+@media (prefers-reduced-motion:reduce){.brand{transition:none}}
 
 @media (max-width:920px){
   /* Slides down rather than snapping in, and is always in the DOM so the
@@ -112,27 +133,99 @@ h3{font-size:1.22rem}
 @media (prefers-reduced-motion:reduce){.btn{transition:none}}
 
 /* ---------- hero ----------
-   Split rather than a full-bleed photo: the headline gets a clean dark field to
-   sit on, and the photograph keeps its own frame. The image is their own valet
-   at Palazzo Versace, which is the single strongest proof they have. */
-.hero{background:var(--navy);color:#aab3c2;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;
-  background:radial-gradient(1100px 620px at 12% 18%,rgba(201,162,39,.14),transparent 62%)}
-.hero__in{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;
-  gap:clamp(2rem,5vw,4.5rem);align-items:center;padding-block:clamp(3.5rem,7vw,6rem)}
-.hero h1{color:#fff;margin-bottom:1.2rem}
-.hero h1 em{font-style:normal;color:var(--gold)}
-.hero p{max-width:38ch;font-size:clamp(1rem,1.9vw,1.14rem)}
-.hero__acts{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2.2rem}
-.hero__shot{position:relative}
-.hero__shot img{width:100%;border-radius:3px}
-/* thin gold frame, offset, echoing the brochure's borders */
-.hero__shot::after{content:'';position:absolute;inset:14px -14px -14px 14px;border:1px solid rgba(201,162,39,.45);
-  border-radius:3px;z-index:-1}
-@media (max-width:900px){
-  .hero__in{grid-template-columns:1fr}
-  .hero__shot{order:-1;max-width:420px}
+   No photograph. The only imagery available is a soft crop out of a PDF, and a
+   weak photograph drags a whole page down with it. So the hero carries type,
+   depth and motion instead: a slow gold aurora behind enormous lettering that
+   assembles itself line by line. It costs nothing to load and cannot look
+   cheap the way a low-resolution image does. */
+.hero{position:relative;min-height:100svh;display:grid;align-items:center;
+  background:var(--navy);color:#aab3c2;overflow:hidden;isolation:isolate}
+
+/* two slow-drifting gold fields, offset, so the light never sits still */
+.hero__aura,.hero__aura2{position:absolute;inset:-25%;z-index:-2;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(201,162,39,.30),transparent 70%);
+  filter:blur(20px)}
+.hero__aura{width:70%;height:70%;left:-8%;top:-12%;animation:drift 22s ease-in-out infinite alternate}
+.hero__aura2{width:55%;height:55%;left:auto;right:-10%;bottom:-14%;top:auto;inset:auto;
+  background:radial-gradient(closest-side,rgba(201,162,39,.18),transparent 70%);
+  animation:drift2 28s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate3d(14%,10%,0) scale(1.15)}}
+@keyframes drift2{to{transform:translate3d(-12%,-8%,0) scale(1.2)}}
+
+/* The real photograph, pushed back hard: desaturated, darkened and gold-tinted
+   so it reads as depth behind the type rather than as the subject. A picture
+   used this way cannot look cheap, because nobody is asked to look at it. */
+.hero__photo{position:absolute;inset:0;z-index:-3;
+  background:url('../img/slider.jpg') center/cover no-repeat;
+  filter:grayscale(.7) contrast(1.05) brightness(.32)}
+.hero__photo::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(11,18,32,.55) 0%,rgba(11,18,32,.86) 62%,var(--navy) 100%)}
+
+/* a fine grid, barely there, to give the dark field some structure */
+.hero::before{content:'';position:absolute;inset:0;z-index:-1;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:78px 78px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 45%,#000 30%,transparent 78%);
+          mask-image:radial-gradient(ellipse 80% 60% at 50% 45%,#000 30%,transparent 78%)}
+
+.hero__in{position:relative;z-index:2;padding-block:clamp(6rem,14vh,9rem) clamp(4rem,8vh,6rem);
+  text-align:center}
+.hero .eyebrow{justify-content:center}
+.hero .eyebrow::before{display:none}
+
+/* The headline is the design. Set as large as the viewport allows. */
+.hero h1{color:#fff;font-size:clamp(2.6rem,8.4vw,7rem);line-height:.98;letter-spacing:-.035em;
+  margin-bottom:1.6rem}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l > span{display:block;transform:translateY(105%);
+  animation:rise .95s cubic-bezier(.16,1,.3,1) forwards}
+.hero h1 .l:nth-child(2) > span{animation-delay:.1s}
+@keyframes rise{to{transform:translateY(0)}}
+.hero h1 em{font-style:normal;
+  background:linear-gradient(100deg,#f3dd97 0%,var(--gold) 40%,#f3dd97 70%,var(--gold) 100%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sheen 7s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+
+.hero p{max-width:44ch;margin-inline:auto;font-size:clamp(1rem,1.9vw,1.18rem);
+  opacity:0;animation:fade 1s ease .5s forwards}
+.hero__acts{display:flex;flex-wrap:wrap;gap:.9rem;justify-content:center;margin-top:2.4rem;
+  opacity:0;animation:fade 1s ease .68s forwards}
+@keyframes fade{to{opacity:1}}
+
+/* a quiet row of facts, which reads as confidence rather than decoration */
+.hero__stats{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(1.6rem,5vw,4rem);
+  margin-top:clamp(3rem,7vh,4.5rem);opacity:0;animation:fade 1s ease .86s forwards}
+.hero__stat b{display:block;font-size:clamp(1.6rem,3.2vw,2.3rem);color:#fff;line-height:1;
+  letter-spacing:-.02em}
+.hero__stat span{display:block;margin-top:.45rem;font-size:.7rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold)}
+
+@media (prefers-reduced-motion:reduce){
+  .hero__aura,.hero__aura2{animation:none}
+  .hero h1 .l > span{transform:none;animation:none}
+  .hero h1 em{animation:none}
+  .hero p,.hero__acts,.hero__stats{opacity:1;animation:none}
 }
+
+/* ---------- client marquee ----------
+   Thirteen prestigious names are the strongest thing this business owns, so
+   they move. Two identical tracks scroll as one continuous belt; pausing on
+   hover lets anyone actually read a name. */
+.belt{background:var(--navy-2);border-block:1px solid rgba(201,162,39,.22);
+  padding-block:1.5rem;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.belt__track{display:flex;width:max-content;animation:belt 42s linear infinite}
+.belt:hover .belt__track{animation-play-state:paused}
+.belt__group{display:flex;align-items:center;flex:none}
+.belt__item{display:inline-flex;align-items:center;gap:1.6rem;padding-inline:1.6rem;
+  font-size:clamp(.95rem,1.6vw,1.15rem);color:#c9d1de;white-space:nowrap;letter-spacing:.02em}
+.belt__item::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.7}
+@keyframes belt{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.belt__track{animation:none;width:100%;
+  overflow-x:auto;justify-content:flex-start}}
 
 /* ---------- proof bar: social proof immediately under the hero ---------- */
 .proof{background:var(--navy-2);border-top:1px solid rgba(201,162,39,.2);color:#8d97a8}
@@ -213,28 +306,44 @@ h3{font-size:1.22rem}
 .step h3{font-size:1.05rem;margin-bottom:.25rem}
 .step p{font-size:.93rem}
 
-/* ---------- clients: the strongest asset on the site ---------- */
-.clients{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+/* ---------- clients ----------
+   Typographic, not photographic. Each venue gets a plate: category above, name
+   large, location beneath, and its own initial set faintly behind as a
+   watermark so no two tiles look identical. On hover the plate fills with the
+   gold gradient used across the rest of the page. */
+.clients{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 @media (max-width:940px){.clients{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.clients{grid-template-columns:1fr}}
-.client{position:relative;border-radius:4px;overflow:hidden;background:var(--navy-2);
-  border:1px solid rgba(201,162,39,.28);
+
+.client{position:relative;overflow:hidden;isolation:isolate;
+  min-height:190px;padding:1.7rem 1.5rem;border-radius:4px;
+  background:var(--navy-2);border:1px solid rgba(201,162,39,.3);
+  display:flex;flex-direction:column;justify-content:flex-end;
   transition:border-color .4s ease,transform .4s cubic-bezier(.2,.8,.3,1),box-shadow .4s ease}
+.client::before{content:'';position:absolute;inset:0;z-index:-1;opacity:0;
+  background:linear-gradient(150deg,rgba(201,162,39,.22) 0%,var(--navy-2) 55%,#2a2110 100%);
+  transition:opacity .4s ease}
 .client:hover{border-color:var(--gold);transform:translateY(-6px);
-  box-shadow:0 24px 48px rgba(11,18,32,.34)}
-.client img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s ease}
-.client:hover img{transform:scale(1.07)}
-@media (prefers-reduced-motion:reduce){.client{transition:none}.client:hover{transform:none}}
-.client figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.5rem 1.1rem .9rem;
-  background:linear-gradient(to top,rgba(11,18,32,.94) 40%,transparent);
-  color:#fff;font-weight:600;font-size:.98rem;letter-spacing:.01em}
-.client figcaption span{display:block;font-weight:400;font-size:.78rem;color:var(--gold-soft);
-  letter-spacing:.12em;text-transform:uppercase;margin-top:.15rem}
-@media (prefers-reduced-motion:reduce){.client img{transition:none}.client:hover img{transform:none}}
-.client--wide{grid-column:span 3}
-@media (max-width:940px){.client--wide{grid-column:span 2}}
-@media (max-width:560px){.client--wide{grid-column:span 1}}
-.client--wide img{aspect-ratio:16/6}
+  box-shadow:0 24px 48px rgba(11,18,32,.4)}
+.client:hover::before{opacity:1}
+
+/* the initial, large and faint, behind the text */
+.client__mark{position:absolute;top:-.28em;right:.06em;z-index:-1;
+  font-size:8.5rem;font-weight:700;line-height:1;color:rgba(201,162,39,.12);
+  pointer-events:none;transition:color .4s ease,transform .4s ease}
+.client:hover .client__mark{color:rgba(201,162,39,.22);transform:translateY(4px)}
+
+.client__cat{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.55rem}
+.client__name{font-size:1.24rem;font-weight:700;color:#fff;line-height:1.25;letter-spacing:-.01em}
+.client__place{font-size:.85rem;color:#8d97a8;margin-top:.3rem}
+.client:hover .client__place{color:#b6bfcd}
+
+@media (prefers-reduced-motion:reduce){
+  .client,.client::before,.client__mark{transition:none}
+  .client:hover{transform:none}
+  .client:hover .client__mark{transform:none}
+}
 
 /* ---------- promise / quote band ---------- */
 .quote{position:relative;text-align:center;max-width:52rem;margin-inline:auto}
@@ -303,7 +412,6 @@ h3{font-size:1.22rem}
 .ftr__in{padding-block:3.5rem 2rem}
 .ftr__cols{display:grid;grid-template-columns:1.6fr 1fr 1.3fr;gap:2.5rem}
 @media (max-width:820px){.ftr__cols{grid-template-columns:1fr}}
-.ftr img{height:56px;margin-bottom:1rem}
 .ftr h4{color:#fff;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.1rem}
 .ftr ul{list-style:none;padding:0;display:grid;gap:.55rem}
 .ftr a{text-decoration:none}
