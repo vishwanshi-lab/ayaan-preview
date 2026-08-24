@@ -88,18 +88,27 @@ h3{font-size:1.22rem}
 /* The wordmark, set in type. The brochure's gold is a gradient rather than a
    flat colour, so the monogram carries one; the lettering stays white for
    legibility at small sizes. */
-.brand{display:inline-flex;align-items:center;gap:.85rem;text-decoration:none;
+.brand{display:inline-flex;align-items:center;gap:.95rem;text-decoration:none;
   transform-origin:left center;transition:transform .25s ease}
 .hdr[data-scrolled='true'] .brand{transform:scale(.86)}
-.brand__mark{font-family:Georgia,'Times New Roman',serif;font-size:2.6rem;line-height:1;font-weight:700;
-  background:linear-gradient(150deg,#f0d98a 0%,var(--gold) 45%,#8f6f16 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  padding-right:.1rem}
-.brand__text{display:flex;flex-direction:column;gap:.18rem}
-.brand__name{font-family:Georgia,'Times New Roman',serif;color:#fff;font-size:1.32rem;
-  letter-spacing:.22em;line-height:1}
-.brand__sub{color:var(--gold);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;
+/* Redrawn as vector, so it carries no background of its own and can sit on any
+   colour at any size. */
+.brand__mark{width:58px;height:58px;flex:none;display:block}
+.brand__text{display:flex;flex-direction:column;gap:.2rem}
+.brand__name{font-family:Georgia,'Times New Roman',serif;color:#fff;font-size:1.62rem;
+  letter-spacing:.2em;line-height:1}
+.brand__sub{color:var(--gold);font-size:.63rem;letter-spacing:.23em;text-transform:uppercase;
   line-height:1}
+/* A hairline that fades out at both ends with a diamond set in the middle,
+   taken from the brochure's dividers. */
+.rule{display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:.5rem}
+.rule::before,.rule::after{content:'';height:1px;flex:1;max-width:74px}
+.rule::before{background:linear-gradient(90deg,transparent,var(--gold))}
+.rule::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.rule i{width:6px;height:6px;flex:none;transform:rotate(45deg);
+  background:linear-gradient(140deg,#f3dd97,var(--gold));border-radius:1px}
+.brand--ftr .rule{justify-content:flex-start}
+.brand--ftr .rule::before{max-width:34px}
 .brand--ftr{margin-bottom:1.2rem}
 @media (prefers-reduced-motion:reduce){.brand{transition:none}}
 
@@ -150,15 +159,28 @@ h3{font-size:1.22rem}
   background:var(--navy);color:#aab3c2;overflow:hidden;isolation:isolate}
 
 /* two slow-drifting gold fields, offset, so the light never sits still */
-.hero__aura,.hero__aura2{position:absolute;inset:-25%;z-index:-2;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(201,162,39,.30),transparent 70%);
-  filter:blur(20px)}
-.hero__aura{width:70%;height:70%;left:-8%;top:-12%;animation:drift 22s ease-in-out infinite alternate}
-.hero__aura2{width:55%;height:55%;left:auto;right:-10%;bottom:-14%;top:auto;inset:auto;
-  background:radial-gradient(closest-side,rgba(201,162,39,.18),transparent 70%);
+/* The gold field follows the pointer. Two layers at different weights, each
+   easing toward the cursor at its own rate, which is what gives it the watery
+   lag rather than sticking to the mouse. Position comes from JS as percentages;
+   with no pointer, or no JS, they sit at their resting values and drift on a
+   slow loop instead. */
+.hero__aura,.hero__aura2{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;
+  will-change:transform}
+.hero__aura{width:78%;height:78%;left:0;top:0;
+  background:radial-gradient(closest-side,rgba(201,162,39,.34),rgba(201,162,39,.10) 55%,transparent 72%);
+  filter:blur(26px);
+  transform:translate3d(calc(var(--ax,26%) - 50%),calc(var(--ay,22%) - 50%),0);
+  animation:drift 22s ease-in-out infinite alternate}
+.hero__aura2{width:52%;height:52%;left:0;top:0;
+  background:radial-gradient(closest-side,rgba(243,221,151,.22),transparent 70%);
+  filter:blur(34px);
+  transform:translate3d(calc(var(--bx,72%) - 50%),calc(var(--by,68%) - 50%),0);
   animation:drift2 28s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate3d(14%,10%,0) scale(1.15)}}
-@keyframes drift2{to{transform:translate3d(-12%,-8%,0) scale(1.2)}}
+/* Once the pointer is in play the idle drift stops, so the two do not fight. */
+.hero[data-pointer='true'] .hero__aura,
+.hero[data-pointer='true'] .hero__aura2{animation:none}
+@keyframes drift{to{transform:translate3d(14%,10%,0) scale(1.12)}}
+@keyframes drift2{to{transform:translate3d(-12%,-8%,0) scale(1.18)}}
 
 /* The real photograph, pushed back hard: desaturated, darkened and gold-tinted
    so it reads as depth behind the type rather than as the subject. A picture
@@ -248,7 +270,7 @@ h3{font-size:1.22rem}
   text-transform:uppercase;color:var(--gold)}
 
 @media (prefers-reduced-motion:reduce){
-  .hero__aura,.hero__aura2{animation:none}
+  .hero__aura,.hero__aura2{animation:none;transition:none}
   .hero h1 .l > span{transform:none;animation:none}
   .hero h1 em{animation:none}
   .hero p,.hero__acts,.hero__stats{opacity:1;animation:none}

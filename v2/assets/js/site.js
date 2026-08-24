@@ -120,6 +120,49 @@
     });
   }
 
+  /* ---- the gold field follows the pointer ----
+     Two layers eased at different rates toward the cursor, which is what makes
+     it feel like liquid rather than something glued to the mouse. Values are
+     written as CSS custom properties inside an animation frame, so moving the
+     pointer never blocks on layout. Touch devices and reduced-motion keep the
+     slow idle drift instead. */
+  var heroEl = document.querySelector('.hero');
+  if (heroEl && !reduced && window.matchMedia('(hover:hover)').matches) {
+    var a = { x: 26, y: 22 }, bTarget = { x: 72, y: 68 };
+    var want = { x: 26, y: 22 };
+    var b = { x: 72, y: 68 };
+    var running = false;
+
+    heroEl.addEventListener('pointermove', function (e) {
+      var box = heroEl.getBoundingClientRect();
+      want.x = ((e.clientX - box.left) / box.width) * 100;
+      want.y = ((e.clientY - box.top) / box.height) * 100;
+      heroEl.setAttribute('data-pointer', 'true');
+      if (!running) { running = true; requestAnimationFrame(step); }
+    });
+
+    // The second layer trails further behind and overshoots slightly, so the two
+    // never move as one blob.
+    function step() {
+      a.x += (want.x - a.x) * 0.075;
+      a.y += (want.y - a.y) * 0.075;
+      b.x += ((100 - want.x) * 0.55 + 26 - b.x) * 0.045;
+      b.y += ((100 - want.y) * 0.55 + 30 - b.y) * 0.045;
+      heroEl.style.setProperty('--ax', a.x.toFixed(2) + '%');
+      heroEl.style.setProperty('--ay', a.y.toFixed(2) + '%');
+      heroEl.style.setProperty('--bx', b.x.toFixed(2) + '%');
+      heroEl.style.setProperty('--by', b.y.toFixed(2) + '%');
+      var moving = Math.abs(want.x - a.x) > 0.05 || Math.abs(want.y - a.y) > 0.05;
+      if (moving) { requestAnimationFrame(step); } else { running = false; }
+    }
+
+    // Drift back toward centre when the pointer leaves, rather than freezing.
+    heroEl.addEventListener('pointerleave', function () {
+      want.x = 26; want.y = 22;
+      if (!running) { running = true; requestAnimationFrame(step); }
+    });
+  }
+
   /* ---- the car in the hero ----
      Enters from the right and travels toward the centre as the hero scrolls
      past, so its position tracks the reader rather than running on a timer.
