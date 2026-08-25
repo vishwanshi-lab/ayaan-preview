@@ -262,7 +262,8 @@
       var d = new FormData(form);
       var v = function (k) { return (d.get(k) || '').toString().trim(); };
       var name = v('name'), phone = v('phone'), email = v('email'),
-          service = v('service'), message = v('message');
+          service = v('service'), message = v('message'),
+          source = v('source') || 'Website', label = v('label') || 'Enquiry';
 
       if (v('company')) return;              // honeypot: only bots fill this
       if (!name || !phone) {
@@ -271,7 +272,7 @@
       }
 
       if (!ACCESS_KEY) {
-        var lines = ['Valet enquiry', 'Name: ' + name, 'Phone: ' + phone,
+        var lines = ['[' + label + '] Valet enquiry', 'Name: ' + name, 'Phone: ' + phone,
                      email ? 'Email: ' + email : '', service ? 'Venue: ' + service : '',
                      message ? 'Details: ' + message : ''].filter(Boolean).join('\n');
         window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(lines), '_blank', 'noopener');
@@ -286,11 +287,14 @@
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: ACCESS_KEY, to: TO_EMAIL,
-          subject: 'Valet enquiry from ' + name,
+          // The tag at the front is what a mail rule matches on, so every
+          // enquiry files itself without anyone reading it first.
+          subject: '[' + label + '] Valet enquiry from ' + name,
           from_name: 'AYAAN website',
           replyto: email || undefined,
           Name: name, Phone: phone, Email: email || '(not given)',
           Venue: service || '(not given)', Message: message || '(none)',
+          Source: source,
           Page: location.pathname.split('/').pop() || 'index.html',
         }),
       })

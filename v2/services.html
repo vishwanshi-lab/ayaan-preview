@@ -92,7 +92,6 @@
         <p class="eyebrow">How it works</p>
         <h2>Five steps, none of them yours</h2>
         <p class="lede">The same sequence at every venue, whether it is twenty cars or three hundred.</p>
-        <p style="margin-top:2rem"><a class="btn btn--gold" href="contact.html">Request a quote</a></p>
       </div>
       <div class="steps">
         <div class="step" data-reveal>
@@ -110,6 +109,44 @@
         <div class="step" data-reveal>
           <div><h3>Car returned quickly</h3><p>Presented back promptly and securely when they are ready to leave.</p></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--tint">
+    <div class="wrap" style="max-width:44rem">
+      <div class="mid" style="margin-bottom:2.2rem" data-reveal>
+        <p class="eyebrow">Quote</p>
+        <h2>Tell us about your venue</h2>
+      </div>
+      <div data-reveal>
+
+        <form class="form" data-enquiry novalidate>
+          <div class="form__row">
+            <input type="text" name="name" placeholder="Your name" aria-label="Your name" autocomplete="name" required>
+            <input type="tel" name="phone" placeholder="Phone number" aria-label="Phone number" autocomplete="tel" required>
+          </div>
+          <div class="form__row">
+            <input type="email" name="email" placeholder="Email" aria-label="Email" autocomplete="email">
+            <select name="service" aria-label="Type of venue">
+              <option value="">Type of venue</option>
+              <option>Hotel or resort</option>
+              <option>Restaurant</option>
+              <option>Event or wedding</option>
+              <option>Residential community</option>
+              <option>Clinic or corporate venue</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <textarea name="message" placeholder="Date, hours, roughly how many cars, and where." aria-label="Details"></textarea>
+          <input type="hidden" name="source" value="Services page">
+          <input type="hidden" name="label" value="Service quote">
+          <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <div><button class="btn btn--gold" type="submit">Request a quote</button></div>
+          <p class="msg" role="status" aria-live="polite"></p>
+        </form>
+
       </div>
     </div>
   </section>
